@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Olympus Fortune</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Olympus Fortune home">
+          <span class="brand-mark">OF</span>
+          <span><strong>OLYMPUS</strong><small>FORTUNE</small></span>
+        </a>
+        <div class="top-actions">
+          <button class="icon-button" type="button" aria-label="Sound on">◉</button>
+          <button class="account-button" type="button"><span class="avatar">A</span>Alex <span class="chevron">⌄</span></button>
+        </div>
+      </header>
+
+      <section class="hero-copy">
+        <div>
+          <p class="eyebrow"><span></span> DIVINE REELS · 5 × 3</p>
+          <h1>Chase the <em>golden</em><br />glory of Olympus.</h1>
+          <p class="subtitle">Spin the sacred reels and let the gods decide your fortune.</p>
+        </div>
+        <div class="jackpot"><span class="sparkle">✦</span><div><small>PROGRESSIVE JACKPOT</small><strong id="jackpot-value">€128,450.80</strong></div></div>
+      </section>
+
+      <section class="machine-area">
+        <div class="side-stat left-stat"><span class="stat-dot violet"></span><small>LAST WIN</small><strong id="last-win">€0.00</strong></div>
+        <div class="machine-frame">
+          <div class="machine-glow"></div>
+          <div class="reel-cabinet">
+            <div class="reel-topline"><span>✦ DIVINE REELS ✦</span><span>GOOD LUCK, ALEX</span></div>
+            <div class="reels-wrap">
+              <div class="payline"><span></span><span></span><span></span><span></span><span></span></div>
+              <div id="pixi-stage" class="pixi-stage"></div>
+            </div>
+            <div class="reel-bottomline"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+          </div>
+          <div class="machine-footer">
+            <div class="win-message" id="win-message"><span class="message-icon">✦</span><span>Ready to tempt fate?</span></div>
+            <div class="controls">
+              <div class="bet-control"><label for="bet-range">BET</label><strong id="bet-value">€2.00</strong><input id="bet-range" type="range" min="1" max="10" step="1" value="2" /></div>
+              <button id="spin-button" class="spin-button" type="button"><span>SPIN</span><small>ENTER</small></button>
+              <button id="max-bet" class="max-bet" type="button">MAX<br />BET</button>
+            </div>
+          </div>
+        </div>
+        <div class="side-stat right-stat"><span class="stat-dot yellow"></span><small>FREE SPINS</small><strong id="free-spins">12</strong></div>
+      </section>
+
+      <section class="info-strip">
+        <div class="balance"><span class="coin">€</span><div><small>BALANCE</small><strong id="balance-value">€840.50</strong></div><button id="add-funds" type="button">+</button></div>
+        <div class="legend"><span><i class="legend-gold"></i> HIGH PAY</span><span><i class="legend-blue"></i> WILD</span><span><i class="legend-pink"></i> BONUS</span></div>
+        <button id="paytable-button" class="paytable-button" type="button">PAYTABLE <span>↗</span></button>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status"></div>
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.6.6/dist/pixi.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
