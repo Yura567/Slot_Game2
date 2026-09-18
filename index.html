@@ -47,12 +47,21 @@
       </section>
 
       <section class="machine-area">
-        <div class="side-stat left-stat"><span class="stat-dot violet"></span><small>LAST WIN</small><strong id="last-win">€0.00</strong></div>
+        <div class="machine-statusbar">
+          <div class="side-stat left-stat"><span class="stat-dot violet"></span><small>LAST WIN</small><strong id="last-win">€0.00</strong></div>
+          <div class="status-divider" aria-hidden="true"></div>
+          <div class="side-stat right-stat"><span class="stat-dot yellow"></span><small>FREE SPINS</small><strong id="free-spins">12</strong></div>
+        </div>
         <div class="machine-frame">
           <div class="machine-glow"></div>
+          <div class="win-overlay" id="win-overlay" aria-live="polite" aria-hidden="true">
+            <span class="win-rays" aria-hidden="true"></span>
+            <strong>WIN</strong>
+            <small>DIVINE PAYOUT</small>
+          </div>
           <div class="reel-cabinet">
-            <div class="reel-topline"><span>✦ DIVINE REELS ✦</span><span>GOOD LUCK, ALEX</span></div>
             <div class="reels-wrap">
+              <div class="reel-topline"><span>✦ DIVINE REELS ✦</span><span>GOOD LUCK, ALEX</span></div>
               <div class="payline"><span></span><span></span><span></span><span></span><span></span></div>
               <div id="pixi-stage" class="pixi-stage"></div>
             </div>
@@ -67,7 +76,6 @@
             </div>
           </div>
         </div>
-        <div class="side-stat right-stat"><span class="stat-dot yellow"></span><small>FREE SPINS</small><strong id="free-spins">12</strong></div>
       </section>
 
       <section class="info-strip">

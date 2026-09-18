@@ -7,6 +7,7 @@ const balanceValue = document.getElementById('balance-value');
 const lastWin = document.getElementById('last-win');
 const winMessage = document.getElementById('win-message');
 const toast = document.getElementById('toast');
+const winOverlay = document.getElementById('win-overlay');
 
 const symbols = [
   { icon: '♆', name: 'trident', color: 0x62c8f1, multiplier: 8 },
@@ -46,6 +47,22 @@ function makeSymbolText(symbol, size) {
   });
   text.anchor.set(0.5);
   return text;
+}
+
+function addTileDepth(tile, x, y, width, height, isCenter) {
+  const shadow = new PIXI.Graphics();
+  drawRoundedRect(shadow, x + 5, y + 7, width, height, 13, 0x160d18, 0.42);
+  app.stage.addChild(shadow);
+
+  const gloss = new PIXI.Graphics();
+  gloss.roundRect(x + 3, y + 3, width - 6, height * 0.34, 10).fill({
+    color: isCenter ? 0xfff0bd : 0xc77b54,
+    alpha: isCenter ? 0.14 : 0.09
+  });
+  gloss.roundRect(x + 3, y + height - 7, width - 6, 4, 2).fill({ color: 0x170c17, alpha: 0.3 });
+  app.stage.addChild(gloss);
+  tile.depthShadow = shadow;
+  tile.gloss = gloss;
 }
 
 function addAmbientDetails(width, height) {
@@ -98,6 +115,7 @@ function buildReels() {
       drawRoundedRect(tile, x, tileY, reelWidth, tileHeight, 13, row === 1 ? 0x5d3428 : 0x4d281e, 0.96);
       tile.stroke({ color: 0xeab557, width: row === 1 ? 3 : 2, alpha: 0.95 });
       app.stage.addChild(tile);
+      addTileDepth(tile, x, tileY, reelWidth, tileHeight, row === 1);
 
       const symbolText = makeSymbolText(symbol, Math.min(61, tileHeight * 0.62));
       const finalY = tileY + tileHeight / 2;
@@ -153,10 +171,14 @@ function animateSlots(time) {
       if (slot.falling) {
         slot.text.y += slot.velocity;
         slot.velocity += 0.55;
+        slot.text.skew.x = Math.sin(time * 0.025 + slot.row) * 0.08;
+        slot.text.alpha = 0.78;
         if (slot.text.y >= slot.finalY) {
           slot.text.y = slot.finalY;
           slot.falling = false;
           slot.text.scale.set(1.16, 0.86);
+          slot.text.skew.x = 0;
+          slot.text.alpha = 1;
           emitBurst(slot.x, slot.finalY, [0xffd978, 0xfff0ae], 4, 1.4);
         }
       }
@@ -205,6 +227,9 @@ function updateParticles() {
 
 function machineEffect(type) {
   const cabinet = document.querySelector('.reel-cabinet');
+  winOverlay.classList.remove('show');
+  winOverlay.setAttribute('aria-hidden', 'true');
+  cabinet.classList.remove('spin-active');
   cabinet.classList.remove('win-burst', 'loss-burst');
   void cabinet.offsetWidth;
   cabinet.classList.add(type === 'win' ? 'win-burst' : 'loss-burst');
@@ -212,6 +237,15 @@ function machineEffect(type) {
     ? [0xffd86b, 0xfff4bd, 0xffa74f, 0xffffff]
     : [0xc94b3f, 0x6b251d, 0xe68a61, 0x8b6a59];
   emitBurst(stageElement.clientWidth / 2, stageElement.clientHeight / 2, palette, type === 'win' ? 110 : 60, type === 'win' ? 7 : 4.5);
+  if (type === 'win') {
+    void winOverlay.offsetWidth;
+    winOverlay.classList.add('show');
+    winOverlay.setAttribute('aria-hidden', 'false');
+    window.setTimeout(() => {
+      winOverlay.classList.remove('show');
+      winOverlay.setAttribute('aria-hidden', 'true');
+    }, 2200);
+  }
   window.setTimeout(() => cabinet.classList.remove('win-burst', 'loss-burst'), 600);
 }
 
@@ -258,6 +292,10 @@ function spin() {
   }
 
   spinning = true;
+  spinButton.classList.remove('press-burst');
+  void spinButton.offsetWidth;
+  spinButton.classList.add('press-burst');
+  document.querySelector('.reel-cabinet').classList.add('spin-active');
   balance -= bet;
   balanceValue.textContent = money(balance);
   spinButton.classList.add('is-spinning');
